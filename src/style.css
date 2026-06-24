@@ -1,0 +1,96 @@
+:root {
+  --felt-dark: #061a10;
+  --felt-mid: #0f2e1e;
+  --felt-light: #124228;
+  --bg: var(--felt-mid);
+  --surface: #e8e0d0;
+  --text: #142018;
+  --text-secondary: #243a2c;
+  --text-muted: #4a5e52;
+  --text-on-felt: #d4bc82;
+  --text-on-felt-muted: rgba(212, 188, 130, 0.72);
+  --border: #b8ae9a;
+  --border-felt: rgba(232, 224, 208, 0.12);
+  --accent: #c49a2e;
+  --accent-hover: #d4aa3e;
+  --accent-bg: #1a3528;
+  --winner-bg: #f3e4b8;
+  --winner-border: #c49a2e;
+  --winner-text: #6b4f12;
+  --green: #3a9e62;
+  --red: #d45a5a;
+  --alert-bg: #3d3520;
+  --alert-text: #e8d4a0;
+  --radius: 12px;
+}
+
+.felt-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-on-felt);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.felt-hint {
+  color: var(--text-on-felt-muted);
+  font-weight: 700;
+}
+
+.felt-label {
+  color: var(--text-on-felt-muted);
+  font-weight: 700;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC',
+    'Helvetica Neue', sans-serif;
+  background-color: var(--felt-mid);
+  background-image:
+    radial-gradient(circle at 25% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 45%),
+    radial-gradient(circle at 75% 80%, rgba(0, 0, 0, 0.2) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 100%, var(--felt-light) 0%, transparent 70%),
+    linear-gradient(165deg, var(--felt-light) 0%, var(--felt-mid) 45%, var(--felt-dark) 100%);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100dvh;
+  overscroll-behavior: none;
+}
+
+#app {
+  min-height: 100dvh;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input:focus,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
