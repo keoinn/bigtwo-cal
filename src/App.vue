@@ -4,10 +4,19 @@ import RecordView from './components/RecordView.vue'
 import ScoreboardView from './components/ScoreboardView.vue'
 import HistoryView from './components/HistoryView.vue'
 import SettingsView from './components/SettingsView.vue'
+import { useFullscreen } from './composables/useFullscreen'
+import { usePwaInstall } from './composables/usePwaInstall'
 
 type Tab = 'record' | 'scoreboard' | 'history' | 'settings'
 
 const activeTab = ref<Tab>('record')
+const { isFullscreen, supported, toggle: toggleFullscreen } = useFullscreen()
+const {
+  showInstallButton,
+  showIOSHint,
+  install,
+  dismissIOSHint,
+} = usePwaInstall()
 
 const tabs: { id: Tab; label: string; icon: string }[] = [
   { id: 'record', label: '記分', icon: '✏️' },
@@ -20,8 +29,38 @@ const tabs: { id: Tab; label: string; icon: string }[] = [
 <template>
   <div class="app">
     <header class="header">
+      <button
+        v-if="showInstallButton"
+        type="button"
+        class="header-action install-btn"
+        aria-label="安裝 App"
+        @click="install"
+      >
+        <span class="header-action-icon">📲</span>
+        <span class="header-action-label">安裝</span>
+      </button>
+      <button
+        v-if="supported"
+        type="button"
+        class="header-action fullscreen-btn"
+        :aria-label="isFullscreen ? '退出全螢幕' : '進入全螢幕'"
+        @click="toggleFullscreen"
+      >
+        <span class="header-action-icon">{{ isFullscreen ? '⤡' : '⛶' }}</span>
+        <span class="header-action-label">{{ isFullscreen ? '退出' : '全螢幕' }}</span>
+      </button>
       <h1 class="felt-title">牌局計算機</h1>
     </header>
+
+    <div v-if="showIOSHint" class="ios-hint-overlay" @click.self="dismissIOSHint">
+      <div class="ios-hint-card">
+        <h3>安裝到主畫面</h3>
+        <p>請點選 Safari 底部的 <strong>分享</strong> 按鈕，再選擇 <strong>加入主畫面</strong>。</p>
+        <button type="button" class="ios-hint-close" @click="dismissIOSHint">
+          知道了
+        </button>
+      </div>
+    </div>
 
     <main class="main">
       <RecordView v-if="activeTab === 'record'" />
@@ -55,9 +94,91 @@ const tabs: { id: Tab; label: string; icon: string }[] = [
 }
 
 .header {
-  padding: 1rem 1.25rem 0.75rem;
+  position: relative;
+  padding: 1rem 3.75rem 0.75rem;
   text-align: center;
   flex-shrink: 0;
+}
+
+.header-action {
+  position: absolute;
+  top: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+  padding: 0.25rem 0.375rem;
+  border: 1px solid var(--border-felt);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-on-felt);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.install-btn {
+  left: 1rem;
+}
+
+.fullscreen-btn {
+  right: 1rem;
+}
+
+.header-action-icon {
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+.header-action-label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.ios-hint-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.ios-hint-card {
+  width: 100%;
+  max-width: 320px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+}
+
+.ios-hint-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.625rem;
+}
+
+.ios-hint-card p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.ios-hint-close {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .main {

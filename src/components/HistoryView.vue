@@ -179,8 +179,9 @@ function confirmDelete(id: string) {
 
 .card-chip {
   font-size: 0.75rem;
-  color: var(--text-muted);
-  background: var(--bg);
+  color: var(--winner-text);
+  background: var(--winner-bg);
+  border: 1px solid var(--border);
   padding: 0.125rem 0.5rem;
   border-radius: 4px;
 }

@@ -76,6 +76,14 @@ function getPlayerName(id: string) {
   return players.value.find((p) => p.id === id)?.name ?? id
 }
 
+function isTiedLoser(previewResult: NonNullable<typeof preview.value>, idx: number) {
+  if (idx <= 0) return false
+  const losers = previewResult.sortedLosers
+  return (
+    cardCounts.value[losers[idx]] === cardCounts.value[losers[idx - 1]]
+  )
+}
+
 function adjustCardCount(playerId: string, delta: number) {
   if (playerId === winnerId.value) return
   const current = cardCounts.value[playerId] ?? 0
@@ -135,6 +143,7 @@ function stopStepHold() {
         <li>
           ≥ {{ scoringRules.threshold }} 張：{{ scoringRules.over }}，贏家分紅／記錄者 +{{ scoringRules.bonus }}
         </li>
+        <li>剩餘張數相同者，平分對應名次罰款</li>
       </ul>
     </div>
 
@@ -225,7 +234,10 @@ function stopStepHold() {
           :key="pid"
           class="preview-row loser"
         >
-          <span>{{ getPlayerName(pid) }}</span>
+          <span>
+            {{ getPlayerName(pid) }}
+            <span v-if="isTiedLoser(preview, idx)" class="tie-tag">並列</span>
+          </span>
           <span>{{ cardCounts[pid] }} 張</span>
           <span class="amount negative">-{{ preview.penalties[idx] }}</span>
         </div>
@@ -478,6 +490,16 @@ function stopStepHold() {
   border-radius: 8px;
   font-size: 0.8125rem;
   margin-bottom: 0.75rem;
+}
+
+.tie-tag {
+  font-size: 0.6875rem;
+  background: var(--winner-bg);
+  color: var(--winner-text);
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  margin-left: 0.375rem;
+  font-weight: 600;
 }
 
 .preview-list {

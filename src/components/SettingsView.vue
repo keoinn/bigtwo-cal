@@ -128,13 +128,14 @@ function confirmClear() {
               <strong>{{ linkedBonus }}</strong>
             </li>
             <li>分數累計至排行榜</li>
+            <li>剩餘張數相同者，平分對應名次罰款</li>
           </ul>
         </div>
       </section>
 
       <section v-else-if="activeTab === 'normal'" class="section">
         <h2 class="felt-title">一般計分</h2>
-        <p class="hint felt-hint">無人達門檻（≥ {{ threshold }} 張）時，三位輸家依剩餘手牌由少到多分別支付</p>
+        <p class="hint felt-hint">無人達門檻（≥ {{ threshold }} 張）時，依剩餘手牌由少到多支付；張數相同者平分對應名次罰款</p>
         <div class="scoring-rows">
           <div
             v-for="(_, idx) in localScoring.penaltiesNormal"
