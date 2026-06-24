@@ -95,14 +95,14 @@ const tabs: { id: Tab; label: string; icon: string }[] = [
 
 .header {
   position: relative;
-  padding: 1rem 3.75rem 0.75rem;
+  padding: calc(1rem + env(safe-area-inset-top, 0px)) 3.75rem 0.75rem;
   text-align: center;
   flex-shrink: 0;
 }
 
 .header-action {
   position: absolute;
-  top: 0.875rem;
+  top: calc(0.875rem + env(safe-area-inset-top, 0px));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -143,7 +143,8 @@ const tabs: { id: Tab; label: string; icon: string }[] = [
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: calc(1.5rem + env(safe-area-inset-top, 0px)) 1.5rem
+    calc(1.5rem + env(safe-area-inset-bottom, 0px));
 }
 
 .ios-hint-card {

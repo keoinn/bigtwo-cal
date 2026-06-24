@@ -104,13 +104,14 @@ const maxAbs = computed(() => {
   width: 1.75rem;
   height: 1.75rem;
   border-radius: 50%;
-  background: var(--bg);
+  background: var(--winner-bg);
+  border: 1px solid var(--winner-border);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.8125rem;
   font-weight: 700;
-  color: var(--text-muted);
+  color: var(--winner-text);
   flex-shrink: 0;
 }
 
@@ -133,15 +134,16 @@ const maxAbs = computed(() => {
 
 .role-tag {
   font-size: 0.6875rem;
-  background: var(--accent-bg);
-  color: var(--accent);
+  background: var(--winner-bg);
+  color: var(--winner-text);
+  border: 1px solid var(--border);
   padding: 0.125rem 0.375rem;
   border-radius: 4px;
 }
 
 .bar-track {
   height: 4px;
-  background: var(--bg);
+  background: color-mix(in srgb, var(--border) 45%, var(--surface));
   border-radius: 2px;
   overflow: hidden;
 }
