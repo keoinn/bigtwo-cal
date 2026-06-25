@@ -7,11 +7,13 @@ export interface RoundResult {
   penalties: number[]
 }
 
-/** 剩餘張數相同者，平分所佔名次的罰款（例如並列第 2、3 名則付 (200+300)/2） */
+/** 依名次計算罰款；超過門檻者用 over 罰款，其餘用一般罰款；張數相同者平分所佔名次罰款 */
 export function getLoserPenalties(
   sortedLosers: string[],
   cardCounts: Record<string, number>,
-  tiers: number[],
+  normalTiers: number[],
+  overTiers: number[],
+  threshold: number,
 ): number[] {
   const penalties: number[] = []
   let rank = 0
@@ -19,6 +21,7 @@ export function getLoserPenalties(
 
   while (i < sortedLosers.length) {
     const count = cardCounts[sortedLosers[i]]
+    const tiers = count >= threshold ? overTiers : normalTiers
     let j = i + 1
     while (
       j < sortedLosers.length &&
@@ -59,11 +62,14 @@ export function calculateRound(
   )
 
   const hasOverThreshold = losers.some((id) => cardCounts[id] >= threshold)
-  const tiers = hasOverThreshold
-    ? [...scoring.penaltiesOver]
-    : [...scoring.penaltiesNormal]
 
-  const penalties = getLoserPenalties(sortedLosers, cardCounts, tiers)
+  const penalties = getLoserPenalties(
+    sortedLosers,
+    cardCounts,
+    [...scoring.penaltiesNormal],
+    [...scoring.penaltiesOver],
+    threshold,
+  )
 
   const changes: Record<string, number> = {}
   for (const id of [...playerIds, recorderId]) {

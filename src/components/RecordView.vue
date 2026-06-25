@@ -141,7 +141,7 @@ function stopStepHold() {
       <ul class="rule-list">
         <li>一般：{{ scoringRules.normal }}</li>
         <li>
-          ≥ {{ scoringRules.threshold }} 張：{{ scoringRules.over }}，贏家分紅／記錄者 +{{ scoringRules.bonus }}
+          超過門檻（≥ {{ scoringRules.threshold }} 張）者：{{ scoringRules.over }}；其餘維持一般計分，贏家分紅／記錄者 +{{ scoringRules.bonus }}
         </li>
         <li>剩餘張數相同者，平分對應名次罰款</li>
       </ul>
@@ -226,7 +226,7 @@ function stopStepHold() {
     <section v-if="preview" class="section preview">
       <h2 class="surface-title">本局預覽</h2>
       <div v-if="preview.hasOverThreshold" class="alert">
-        ⚠️ 有人剩餘 ≥ {{ state.settings.threshold }} 張，罰款加倍
+        ⚠️ 有人剩餘 ≥ {{ state.settings.threshold }} 張，該玩家罰款加倍
       </div>
       <div class="preview-list">
         <div

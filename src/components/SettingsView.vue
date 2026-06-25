@@ -111,7 +111,7 @@ function confirmClear() {
       <section v-if="activeTab === 'threshold'" class="section">
         <h2 class="felt-title">超過門檻張數</h2>
         <p class="hint felt-hint">
-          任一位輸家剩餘手牌 ≥ 此張數時，改用「超過門檻計分」
+          任一位輸家剩餘手牌 ≥ 此張數時，該玩家改用「超過門檻計分」；其餘輸家仍用一般計分
         </p>
         <div class="scoring-row">
           <span class="scoring-label">門檻張數</span>
@@ -124,7 +124,7 @@ function confirmClear() {
             <li>4 位玩家 + 1 位記錄者</li>
             <li>一般：<strong>{{ rulesSummary.normal }}</strong></li>
             <li>
-              ≥ {{ threshold }} 張：<strong>{{ rulesSummary.over }}</strong>，贏家分紅／記錄者獲得
+              超過門檻（≥ {{ threshold }} 張）：<strong>{{ rulesSummary.over }}</strong>；其餘維持一般計分，贏家分紅／記錄者獲得
               <strong>{{ linkedBonus }}</strong>
             </li>
             <li>分數累計至排行榜</li>
@@ -135,7 +135,7 @@ function confirmClear() {
 
       <section v-else-if="activeTab === 'normal'" class="section">
         <h2 class="felt-title">一般計分</h2>
-        <p class="hint felt-hint">無人達門檻（≥ {{ threshold }} 張）時，依剩餘手牌由少到多支付；張數相同者平分對應名次罰款</p>
+        <p class="hint felt-hint">未達門檻者，依剩餘手牌由少到多支付；張數相同者平分對應名次罰款</p>
         <div class="scoring-rows">
           <div
             v-for="(_, idx) in localScoring.penaltiesNormal"
@@ -156,7 +156,7 @@ function confirmClear() {
 
       <section v-else-if="activeTab === 'over'" class="section">
         <h2 class="felt-title">超過門檻計分</h2>
-        <p class="hint felt-hint">任一位輸家剩餘 ≥ {{ threshold }} 張時套用</p>
+        <p class="hint felt-hint">剩餘 ≥ {{ threshold }} 張的輸家套用；未達門檻者仍用一般計分</p>
         <div class="scoring-rows">
           <div
             v-for="(_, idx) in localScoring.penaltiesOver"
